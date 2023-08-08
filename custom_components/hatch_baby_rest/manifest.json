@@ -1,5 +1,5 @@
 {
-  "codeowners": ["@kjoconor"],
+  "codeowners": ["@kjoconnor"],
   "config_flow": true,
   "dependencies": ["bluetooth_adapters"],
   "documentation": "https://github.com/kjoconnor/ha-hatch-baby-rest/",
