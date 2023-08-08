@@ -54,9 +54,9 @@ class HatchBabyRestMediaPlayer(HatchBabyRestEntity, MediaPlayerEntity):
         self.async_write_ha_state()
 
     @property
-    def state(self) -> MediaPlayerState | None:
+    async def state(self) -> MediaPlayerState | None:
         if not getattr(self._device, "power"):
-            self._device.refresh_data()
+            await self._device.refresh_data()
 
         if self._device.power is False:
             return MediaPlayerState.OFF
