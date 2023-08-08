@@ -55,6 +55,9 @@ class HatchBabyRestMediaPlayer(HatchBabyRestEntity, MediaPlayerEntity):
 
     @property
     def state(self) -> MediaPlayerState | None:
+        if not getattr(self._device, "power"):
+            self._device.refresh_data()
+
         if self._device.power is False:
             return MediaPlayerState.OFF
 
