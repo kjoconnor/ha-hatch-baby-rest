@@ -30,17 +30,20 @@ async def async_setup_entry(
         entry.unique_id,
         await connect_async(ble_device, scan_now=False, refresh_now=False),
     )
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(entry, "switch")
-    )
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(entry, "light")
-    )
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(entry, "media_player")
-    )
+    
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
+
+
+async def async_unload_entry(
+    hass: core.HomeAssistant, entry: config_entries.ConfigEntry
+) -> bool:
+    """Unload a config entry."""
+    if unload_ok := await hass.config_entries.async_forward_entry_unloads(entry, PLATFORMS):
+        hass.data[DOMAIN].pop(entry.entry_id)
+    
+    return unload_ok
 
 
 async def options_update_listener(
